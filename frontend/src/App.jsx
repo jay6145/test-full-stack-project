@@ -19,14 +19,14 @@ function App() {
   }, []);
 
   return (
-    <div style={styles.wrapper}>
+    <div style={styles.page}>
       <div style={styles.card}>
         <h1 style={styles.title}>Dokploy Test App</h1>
         <p style={styles.subtitle}>Frontend ↔ API Connectivity Check</p>
 
-        <div style={styles.section}>
-          <span style={styles.label}>API URL:</span>
-          <span style={styles.value}>{API_URL || "(not set)"}</span>
+        <div style={styles.infoRow}>
+          <span style={styles.infoLabel}>API URL:</span>
+          <span style={styles.infoValue}>{API_URL || "(not set)"}</span>
         </div>
 
         <div style={styles.responseBox}>
@@ -41,102 +41,99 @@ function App() {
   );
 }
 
-/* Auto light/dark mode with CSS variables */
+/* Better visual styling with gradients + balanced spacing */
 const styles = {
-  wrapper: {
+  page: {
     height: "100vh",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    padding: "20px",
-    background: "var(--bg)",
-    transition: "background 0.3s ease",
+    padding: "32px",
+    background: "var(--bg-gradient)",
+    transition: "0.3s ease",
   },
   card: {
     width: "100%",
-    maxWidth: "520px",
+    maxWidth: "540px",
+    padding: "32px 36px",
+    borderRadius: "16px",
     background: "var(--card-bg)",
-    padding: "32px",
-    borderRadius: "14px",
-    boxShadow: "var(--shadow)",
     border: "1px solid var(--border)",
-    transition: "0.3s ease",
+    boxShadow: "var(--shadow)",
   },
   title: {
-    margin: "0 0 6px",
-    fontSize: "28px",
+    margin: 0,
+    fontSize: "26px",
     fontWeight: "700",
     color: "var(--text-primary)",
+    letterSpacing: "-0.3px",
   },
   subtitle: {
-    margin: "0 0 24px",
-    fontSize: "15px",
+    margin: "6px 0 22px",
+    fontSize: "14px",
     color: "var(--text-secondary)",
   },
-  section: {
-    marginBottom: "18px",
-    display: "flex",
-    gap: "6px",
+  infoRow: {
+    marginBottom: "20px",
     fontSize: "14px",
   },
-  label: {
+  infoLabel: {
     fontWeight: 600,
     color: "var(--text-primary)",
+    marginRight: 6,
   },
-  value: {
+  infoValue: {
     color: "var(--text-secondary)",
   },
   responseBox: {
     background: "var(--box-bg)",
     border: "1px solid var(--border)",
-    borderRadius: "10px",
-    padding: "16px",
-    minHeight: "100px",
+    borderRadius: "12px",
+    padding: "18px",
+    minHeight: "110px",
   },
   pre: {
     margin: 0,
     fontSize: "14px",
     whiteSpace: "pre-wrap",
-    wordBreak: "break-all",
+    wordBreak: "break-word",
     color: "var(--text-primary)",
   },
   loading: {
     margin: 0,
-    color: "var(--text-secondary)",
     fontSize: "14px",
+    color: "var(--text-secondary)",
   },
 };
 
-// Inject CSS variables to support dark/light mode
 const root = document.documentElement;
 
-// Light mode palette
+/* LIGHT THEME */
 const light = {
-  "--bg": "#f5f7fa",
+  "--bg-gradient": "linear-gradient(to bottom right, #eef2f7, #e5e9f0)",
   "--card-bg": "#ffffff",
-  "--box-bg": "#f9fafb",
-  "--border": "#e1e4e8",
+  "--box-bg": "#f7f9fc",
+  "--border": "#d8dce3",
   "--text-primary": "#111",
   "--text-secondary": "#555",
-  "--shadow": "0 6px 22px rgba(0,0,0,0.07)",
+  "--shadow": "0 8px 28px rgba(0,0,0,0.05)",
 };
 
-// Dark mode palette
+/* DARK THEME */
 const dark = {
-  "--bg": "#0d1117",
-  "--card-bg": "#161b22",
-  "--box-bg": "#1c2128",
-  "--border": "#30363d",
-  "--text-primary": "#e6edf3",
+  "--bg-gradient": "linear-gradient(to bottom right, #1a1f25, #121417)",
+  "--card-bg": "#1f252c",
+  "--box-bg": "#252b33",
+  "--border": "#333a42",
+  "--text-primary": "#e8edf2",
   "--text-secondary": "#9ba6b0",
-  "--shadow": "0 6px 22px rgba(0,0,0,0.4)",
+  "--shadow": "0 8px 28px rgba(0,0,0,0.35)",
 };
 
-// Auto theme selection
+/* Auto theme */
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 const theme = prefersDark ? dark : light;
 
-// Apply theme vars
 Object.entries(theme).forEach(([key, val]) =>
   root.style.setProperty(key, val)
 );
