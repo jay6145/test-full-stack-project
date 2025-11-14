@@ -5,6 +5,40 @@ function App() {
   const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
+    // Auto theme detection
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const light = {
+      "--bg-gradient": "linear-gradient(to bottom right, #eef2f7, #e5e9f0)",
+      "--card-bg": "#ffffff",
+      "--box-bg": "#f7f9fc",
+      "--border": "#d8dce3",
+      "--text-primary": "#111",
+      "--text-secondary": "#555",
+      "--shadow": "0 8px 28px rgba(0,0,0,0.05)",
+      "--font": "'Inter', system-ui, sans-serif"
+    };
+
+    const dark = {
+      "--bg-gradient": "linear-gradient(to bottom right, #1a1f25, #121417)",
+      "--card-bg": "#1f252c",
+      "--box-bg": "#252b33",
+      "--border": "#333a42",
+      "--text-primary": "#e8edf2",
+      "--text-secondary": "#9ba6b0",
+      "--shadow": "0 8px 28px rgba(0,0,0,0.35)",
+      "--font": "'Inter', system-ui, sans-serif"
+    };
+
+    const theme = prefersDark ? dark : light;
+    const root = document.documentElement;
+
+    Object.entries(theme).forEach(([key, val]) =>
+      root.style.setProperty(key, val)
+    );
+  }, []);
+
+  useEffect(() => {
     if (!API_URL) {
       setData({ error: "VITE_API_URL is not defined" });
       return;
@@ -13,9 +47,7 @@ function App() {
     fetch(`${API_URL}/`)
       .then((res) => res.json())
       .then(setData)
-      .catch((err) =>
-        setData({ error: "Failed to fetch API: " + err.message })
-      );
+      .catch((err) => setData({ error: err.message }));
   }, []);
 
   return (
@@ -41,7 +73,7 @@ function App() {
   );
 }
 
-/* Better visual styling with gradients + balanced spacing */
+/* Clean + modern layout */
 const styles = {
   page: {
     height: "100vh",
@@ -50,6 +82,7 @@ const styles = {
     alignItems: "center",
     padding: "32px",
     background: "var(--bg-gradient)",
+    fontFamily: "var(--font)",
     transition: "0.3s ease",
   },
   card: {
@@ -60,16 +93,16 @@ const styles = {
     background: "var(--card-bg)",
     border: "1px solid var(--border)",
     boxShadow: "var(--shadow)",
+    fontFamily: "var(--font)",
   },
   title: {
     margin: 0,
     fontSize: "26px",
     fontWeight: "700",
     color: "var(--text-primary)",
-    letterSpacing: "-0.3px",
   },
   subtitle: {
-    margin: "6px 0 22px",
+    margin: "6px 0 24px",
     fontSize: "14px",
     color: "var(--text-secondary)",
   },
@@ -80,10 +113,10 @@ const styles = {
   infoLabel: {
     fontWeight: 600,
     color: "var(--text-primary)",
-    marginRight: 6,
   },
   infoValue: {
     color: "var(--text-secondary)",
+    marginLeft: "4px",
   },
   responseBox: {
     background: "var(--box-bg)",
@@ -105,37 +138,5 @@ const styles = {
     color: "var(--text-secondary)",
   },
 };
-
-const root = document.documentElement;
-
-/* LIGHT THEME */
-const light = {
-  "--bg-gradient": "linear-gradient(to bottom right, #eef2f7, #e5e9f0)",
-  "--card-bg": "#ffffff",
-  "--box-bg": "#f7f9fc",
-  "--border": "#d8dce3",
-  "--text-primary": "#111",
-  "--text-secondary": "#555",
-  "--shadow": "0 8px 28px rgba(0,0,0,0.05)",
-};
-
-/* DARK THEME */
-const dark = {
-  "--bg-gradient": "linear-gradient(to bottom right, #1a1f25, #121417)",
-  "--card-bg": "#1f252c",
-  "--box-bg": "#252b33",
-  "--border": "#333a42",
-  "--text-primary": "#e8edf2",
-  "--text-secondary": "#9ba6b0",
-  "--shadow": "0 8px 28px rgba(0,0,0,0.35)",
-};
-
-/* Auto theme */
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const theme = prefersDark ? dark : light;
-
-Object.entries(theme).forEach(([key, val]) =>
-  root.style.setProperty(key, val)
-);
 
 export default App;
