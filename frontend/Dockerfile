@@ -1,12 +1,18 @@
 FROM node:18-alpine
 
 WORKDIR /app
-ARG CACHEBUST=1
+
+# This receives CACHEBUST from docker-compose.yml
+ARG CACHEBUST
+ENV CACHEBUST=${CACHEBUST}
 
 COPY package*.json ./
 COPY vite.config.js ./
 RUN npm install
+
 COPY . .
+
+# Vite will rebuild fresh because CACHEBUST changes
 RUN npm run build
 
 RUN npm install -g serve

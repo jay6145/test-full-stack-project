@@ -1,13 +1,17 @@
 services:
   api:
-    build: ./api
+    build:
+      context: ./api
     ports:
       - "3001:3001"
     environment:
       - API_SECRET=hello-from-env
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        CACHEBUST: ${CACHEBUST}
     ports:
       - "3002:3000"
     environment:
