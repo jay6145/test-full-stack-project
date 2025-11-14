@@ -7,7 +7,10 @@ services:
       - API_SECRET=hello-from-env
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: "https://api.jaydenmistry.net"
     ports:
       - "3002:3000"
     environment:
