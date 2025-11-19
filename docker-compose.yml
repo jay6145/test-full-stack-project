@@ -2,7 +2,7 @@ services:
   api:
     build: ./api
     ports:
-      - "3001:3001"
+      - "3003:3001"
     environment:
       - API_SECRET=hello-from-env
 
@@ -12,7 +12,7 @@ services:
       args:
         VITE_API_URL: "https://api.jaydenmistry.net"
     ports:
-      - "3002:3000"
+      - "3004:3000"
     environment:
       - VITE_API_URL=https://api.jaydenmistry.net
     depends_on:
